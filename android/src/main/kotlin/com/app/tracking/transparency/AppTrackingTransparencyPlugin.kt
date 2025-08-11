@@ -60,7 +60,7 @@ class AppTrackingTransparencyPlugin() : FlutterPlugin, ActivityAware, MethodCall
                     val isLimitAdTrackingEnabled =
                         AdvertisingIdClient.getAdvertisingIdInfo(a).isLimitAdTrackingEnabled
                     a.runOnUiThread {
-                        result.success(isLimitAdTrackingEnabled ? 3 : 2)
+                        result.success(if(isLimitAdTrackingEnabled) 3 else 2)
                     }
                 } catch (e: Exception) {
                     a.runOnUiThread {
@@ -73,7 +73,7 @@ class AppTrackingTransparencyPlugin() : FlutterPlugin, ActivityAware, MethodCall
                     val isLimitAdTrackingEnabled =
                         AdvertisingIdClient.getAdvertisingIdInfo(a).isLimitAdTrackingEnabled
                     a.runOnUiThread {
-                        result.success(isLimitAdTrackingEnabled ? 3 : 2)
+                        result.success(if(isLimitAdTrackingEnabled) 3 else 2)
                     }
                 } catch (e: Exception) {
                     a.runOnUiThread {
