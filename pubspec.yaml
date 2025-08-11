@@ -20,3 +20,6 @@ flutter:
     platforms:
       ios:
         pluginClass: AppTrackingTransparencyPlugin
+      android:
+        package: com.app.tracking.transparency
+        pluginClass: AppTrackingTransparencyPlugin

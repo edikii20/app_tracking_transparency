@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 enum TrackingStatus {
@@ -14,7 +13,7 @@ enum TrackingStatus {
   /// The user authorizes access to tracking
   authorized,
 
-  /// The platform is not iOS or the iOS version is below 14.0
+  /// iOS version is below 14.0
   notSupported,
 }
 
@@ -40,14 +39,10 @@ class AppTrackingTransparency {
   /// }
   /// ```
   ///
-  /// returns TrackingStatus.notSupported on Android
   static Future<TrackingStatus> get trackingAuthorizationStatus async {
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final int status =
-          (await _channel.invokeMethod<int>('getTrackingAuthorizationStatus'))!;
-      return TrackingStatus.values[status];
-    }
-    return TrackingStatus.notSupported;
+    final int status =
+        (await _channel.invokeMethod<int>('getTrackingAuthorizationStatus'))!;
+    return TrackingStatus.values[status];
   }
 
   /// Call this function to display tracking authorization dialog on ios 14+ devices.
@@ -58,27 +53,17 @@ class AppTrackingTransparency {
   /// final status = await AppTrackingTransparency.requestTrackingAuthorization();
   /// ```
   ///
-  /// returns TrackingStatus.notSupported on Android
   static Future<TrackingStatus> requestTrackingAuthorization() async {
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final int status =
-          (await _channel.invokeMethod<int>('requestTrackingAuthorization'))!;
-      return TrackingStatus.values[status];
-    }
-    return TrackingStatus.notSupported;
+    final int status =
+        (await _channel.invokeMethod<int>('requestTrackingAuthorization'))!;
+    return TrackingStatus.values[status];
   }
 
   /// Call this function to get advertising identifier (ie tracking data).
   /// ```dart
   /// final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
   /// ```
-  /// returns empty string on Android
-  static Future<String> getAdvertisingIdentifier() async {
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final String uuid =
-          (await _channel.invokeMethod<String>('getAdvertisingIdentifier'))!;
-      return uuid;
-    }
-    return "";
+  static Future<String?> getAdvertisingIdentifier() async {
+    return await _channel.invokeMethod<String>('getAdvertisingIdentifier');
   }
 }
